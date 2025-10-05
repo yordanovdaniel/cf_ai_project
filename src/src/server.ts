@@ -5,7 +5,6 @@ import {
   generateId,
   streamText,
   type StreamTextOnFinishCallback,
-  stepCountIs,
   createUIMessageStream,
   convertToModelMessages,
   createUIMessageStreamResponse,
@@ -30,9 +29,6 @@ export class Chat extends AIChatAgent<Env> {
     onFinish: StreamTextOnFinishCallback<ToolSet>,
     _options?: { abortSignal?: AbortSignal }
   ) {
-    // const mcpConnection = await this.mcp.connect(
-    //   "https://path-to-mcp-server/sse"
-    // );
 
     // Collect all tools, including MCP tools
     const allTools = {
@@ -55,8 +51,7 @@ export class Chat extends AIChatAgent<Env> {
         });
 
         const result = streamText({
-          system: `You are a helpful assistant that can do various tasks... `,
-
+          system: `You are a concise and efficient assistant capable of performing various tasks. When the user asks for the stock price of a company, first convert the company name into its stock symbol, then call the appropriate tool to retrieve the stock price.`,
           messages: convertToModelMessages(processedMessages),
           model,
           tools: allTools,
@@ -72,24 +67,6 @@ export class Chat extends AIChatAgent<Env> {
     });
 
     return createUIMessageStreamResponse({ stream });
-  }
-  async executeTask(description: string, _task: Schedule<string>) {
-    await this.saveMessages([
-      ...this.messages,
-      {
-        id: generateId(),
-        role: "user",
-        parts: [
-          {
-            type: "text",
-            text: `Running scheduled task: ${description}`
-          }
-        ],
-        metadata: {
-          createdAt: new Date()
-        }
-      }
-    ]);
   }
 }
 

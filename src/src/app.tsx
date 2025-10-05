@@ -159,7 +159,7 @@ export default function Chat() {
           </div>
 
           <div className="flex-1">
-            <h2 className="font-semibold text-base">AI Chat Agent</h2>
+            <h2 className="font-semibold text-base">Stocks Agent</h2>
           </div>
 
           {isProductionEnv ? null : (
@@ -205,19 +205,8 @@ export default function Chat() {
                   </div>
                   <h3 className="font-semibold text-lg">Welcome to AI Chat</h3>
                   <p className="text-muted-foreground text-sm">
-                    Start a conversation with your AI assistant. Try asking
-                    about:
+                    Chat with your AI Agent and get instant answers to your stock-related questions.
                   </p>
-                  <ul className="text-sm text-left space-y-2">
-                    <li className="flex items-center gap-2">
-                      <span className="text-[#F48120]">•</span>
-                      <span>Weather information for any city</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className="text-[#F48120]">•</span>
-                      <span>Local time in different locations</span>
-                    </li>
-                  </ul>
                 </div>
               </Card>
             </div>

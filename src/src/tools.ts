@@ -4,7 +4,7 @@
  */
 import { tool, type ToolSet } from "ai";
 import { z } from "zod/v3";
-import { getStockPrice } from "./services/stockPriceService";
+import { getStockPrice, getStockNews } from "./services/stockService";
 
 const retrieveStockPrice = tool({
   description: "get stock price for symbol",
@@ -12,6 +12,16 @@ const retrieveStockPrice = tool({
   execute: async ({ symbol }) => {
     console.log(`Retrieving stock price for ${symbol}`);
     return `The stock price for ${symbol} is ${await getStockPrice(symbol)}$`;
+  }
+});
+
+const retrieveStockNews = tool({
+  description: "get latest news for a stock symbol",
+  inputSchema: z.object({ symbol: z.string() }),
+  execute: async ({ symbol }) => {
+    console.log(`Retrieving stock news for ${symbol}`);
+    const latestNews = await getStockNews(symbol, 3);
+    return `Latest news for ${symbol}: ${latestNews?.join('; ')}`;
   }
 });
 
@@ -30,6 +40,7 @@ const getToolsList = tool({
  */
 const toolsList = {
   retrieveStockPrice,
+  retrieveStockNews,
 }
 export const tools = {
   ...toolsList,
